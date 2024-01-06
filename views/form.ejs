@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form</title>
+    <style>
+        .body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 25%;
+            height:40vh;
+            background-color: gray;
+            border-radius: 10px;
+            box-shadow: 2px solid gray;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form label{
+            font-size: larger;
+            font-weight: 600;
+        }
+        .form input{
+            padding: 6px;
+            border-radius: 5px;
+            border:none;
+        }
+        .form button{
+
+            padding: 6px;
+            border-radius: 5px;
+            border:none;
+            background-color: green;
+            color: white;
+            font-size: larger;
+            font-weight: 300;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .form button:hover{
+            background-color: aquamarine;
+            cursor: pointer;
+            color: black;
+        }
+        .btn{
+            padding: 10px;
+            border-radius: 5px;
+            background-color: blueviolet;
+            color: white;
+            border: none;
+            width: 10%;
+            margin-top: 10px;
+            box-shadow: 10px;
+            cursor: pointer;
+        }
+        .btn:hover{
+            background-color: rgb(121, 26, 164);
+        }
+    </style>
+</head>
+<body class="body">
+    <h1>User Form</h1>
+    <form class="form" action="/submit" method="post">
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="contact">Contact: </label>
+        <input type="text" id="contact" name="contact" required><br>
+
+        <button type="submit">Submit</button>
+
+
+    </form>
+
+    <button onclick="getUsers()" class="btn">Get All Users</button>
+
+    <div id="userList">
+
+    </div>
+    
+    <script>
+        async function getUsers(){
+            const res = await fetch('/users');
+            const users = await res.json();
+
+            const userListDiv = document.getElementById('userList');
+            userListDiv.innerHTML = '<h1>List of All Users</h1>';
+
+            const userList = document.createElement('ul');
+
+            users.forEach(user =>{
+                const listItem = document.createElement('li');
+                listItem.textContent = `${user.name} ------ ${user.email} ------ ${user.contact}`
+                userList.appendChild(listItem);
+            });
+
+            userListDiv.appendChild(userList);
+        }
+    </script>
+</body>
+</html>
